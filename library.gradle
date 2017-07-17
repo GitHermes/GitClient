@@ -1,0 +1,23 @@
+apply plugin: "com.android.library"
+
+android {
+    compileSdkVersion rootProject.ext.compile_sdk_version
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.target_sdk_version
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', rootProject.file('proguard-rules.pro')
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir:'libs', include:'*.jar')
+}

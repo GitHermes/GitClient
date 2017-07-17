@@ -1,0 +1,54 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion rootProject.ext.compile_sdk_version
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId PACKAGE_NAME
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.target_sdk_version
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs{
+
+        gitboomConfig{
+            storeFile rootProject.file(KEYSTORE_DIR)
+            storePassword STORE_PASS
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASS
+        }
+
+    }
+
+    sourceSets.main{
+        jniLibs.srcDirs = ['libs']
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', rootProject.file('proguard-rules.pro')
+            signingConfig signingConfigs.gitboomConfig
+            shrinkResources true
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.gitboomConfig
+        }
+    }
+
+
+    lintOptions{
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir:'libs', include:'*.jar')
+}
